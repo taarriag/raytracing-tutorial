@@ -28,12 +28,13 @@ int main() {
   int ny = 100;
   int ns = 100;
   std::cout << "P3\n" << nx << " " << ny << "\n255\n";
-  Hitable* list[4];
-  list[0] = new Sphere(vec3(0,0,-1), 0.5, new Lambertian(vec3(0.8, 0.3, 0.3)));
+  Hitable* list[5];
+  list[0] = new Sphere(vec3(0,0,-1), 0.5, new Lambertian(vec3(0.1, 0.2, 0.5)));
   list[1] = new Sphere(vec3(0, -100.5, -1), 100, new Lambertian(vec3(0.8, 0.8, 0.0)));
-  list[2] = new Sphere(vec3(1, 0, -1), 0.5, new Metal(vec3(0.8, 0.6, 0.2)));
-  list[3] = new Sphere(vec3(-1, 0, -1), 0.5, new Metal(vec3(0.8, 0.8, 0.8)));
-  Hitable* world = new HitableList(list, 4);
+  list[2] = new Sphere(vec3(1, 0, -1), 0.5, new Metal(vec3(0.8, 0.6, 0.2), /*fuzz=*/0.05));
+  list[3] = new Sphere(vec3(-1, 0, -1), 0.5, new Dielectric(1.5));
+  list[4] = new Sphere(vec3(-1, 0, -1), -0.45, new Dielectric(1.5));
+  Hitable* world = new HitableList(list, 5);
   Camera camera;
   for (int j = ny - 1; j >= 0; --j) {
     for (int i = 0; i < nx; ++i) {

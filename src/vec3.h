@@ -152,7 +152,19 @@ vec3 RandomInUnitSphere() {
   return p;
 }
 
-vec3 Reflect(const vec3& ray_dir, const vec3& normal) {
-  return ray_dir - 2*dot(ray_dir, normal)*normal;
+vec3 Reflect(const vec3& v, const vec3& normal) {
+  return v - 2*dot(v, normal)*normal;
+}
+
+bool Refract(const vec3& v, const vec3& normal, float ni_over_nt, vec3* out_refracted) {
+  vec3 unit_v = unit_vector(v);
+  float v_dot_normal = dot (unit_v, normal);
+  float discriminant = 1.0 - ni_over_nt*ni_over_nt*(1 - v_dot_normal*v_dot_normal);
+  if (discriminant > 0) {
+    *out_refracted = ni_over_nt*(unit_v - normal*v_dot_normal) - normal*sqrt(discriminant);
+    return true;
+  } else {
+    return false;
+  }
 }
 #endif
