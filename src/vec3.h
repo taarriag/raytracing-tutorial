@@ -152,6 +152,16 @@ vec3 RandomInUnitSphere() {
   return p;
 }
 
+vec3 RandomInUnitDisk() {
+  // Pick a random point in the unit 2d box until grabbing a point that is inside the
+  // unit disk.
+  vec3 p;
+  do {
+    p = 2.0 * vec3(drand48(), drand48(), 0) - vec3(1, 1, 0);
+  } while (dot(p, p) >= 1.0);
+  return p;
+}
+
 vec3 Reflect(const vec3& v, const vec3& normal) {
   return v - 2*dot(v, normal)*normal;
 }

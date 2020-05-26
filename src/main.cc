@@ -24,8 +24,8 @@ vec3 Color(const Ray& r, Hitable* world, int depth) {
   }
 }
 int main() {
-  int nx = 400;
-  int ny = 200;
+  int nx = 200;
+  int ny = 100;
   int ns = 100;
   std::cout << "P3\n" << nx << " " << ny << "\n255\n";
   Hitable* list[5];
@@ -35,12 +35,17 @@ int main() {
   list[3] = new Sphere(vec3(-1, 0, -1), 0.5, new Dielectric(1.5));
   list[4] = new Sphere(vec3(-1, 0, -1), -0.45, new Dielectric(1.5));
   Hitable* world = new HitableList(list, 5);
+  vec3 lookfrom(3,3,2);
+  vec3 lookat(0,0,-1);
+  float dist_to_focus = (lookfrom - lookat).length(); 
   Camera camera(
-    /*lookfrom=*/vec3(-2, 2, 1),
-    /*lookat=*/vec3(0, 0, -1),
+    lookfrom,
+    lookat,
     /*vup=*/vec3(0, 1, 0),
-    /*vfov=*/27.5,
-    /*aspect_ratio=*/float(nx)/float(ny));
+    /*vfov=*/20,
+    /*aspect_ratio=*/float(nx)/float(ny),
+    /*aperture=*/0.0,
+    dist_to_focus);
 
   for (int j = ny - 1; j >= 0; --j) {
     for (int i = 0; i < nx; ++i) {
